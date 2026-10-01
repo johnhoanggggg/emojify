@@ -21,7 +21,7 @@ namespace {
 struct Config {
     std::string input;
     std::vector<std::string> outputs;
-    int count = 600;
+    int count = 1000;
     int input_size = 320;
     int output_size = 2048;
     int alpha = 255;
@@ -45,7 +45,7 @@ void usage() {
   -i PATH        input image (png, jpg, gif, bmp, ...)
   -o PATH        output: .png, .jpg, .svg or .gif; may be repeated. A path with
                  %%d (e.g. frame%%03d.png) saves every -nth frame
-  -n N           number of emoji (600)
+  -n N           number of emoji (1000)
   -r N           resize the input to this size before processing (320)
   -s N           output size (2048)
   -a N           emoji opacity, 1-255 (255)

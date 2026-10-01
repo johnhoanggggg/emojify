@@ -47,7 +47,7 @@ To try it on some classic test photos:
 |---|---|---|
 | `-i` | | input image (png, jpg, gif, bmp, …) |
 | `-o` | | output path; `.png`, `.jpg`, `.svg` or `.gif`; may be repeated |
-| `-n` | 600 | number of emoji |
+| `-n` | 1000 | number of emoji |
 | `-r` | 320 | resize the input to this size before processing (larger is slower) |
 | `-s` | 2048 | output size |
 | `-a` | 255 | emoji opacity (1–255) |
@@ -86,6 +86,7 @@ To try it on some classic test photos:
 
 ## Performance
 
-At the default settings (600 emoji, 2048px output) a run takes about 8–11
-seconds on 4 cores. Most of that time goes into scoring candidate placements.
+At the default settings (up to 1000 emoji, 2048px output) a run takes about
+10–25 seconds on 4 cores. With the 24px minimum emoji size, many images stop
+early once more emoji would only make the match worse. Most of that time goes into scoring candidate placements.
 For a faster, rougher result, try `-r 200` or `-t 200 -age 50`.
