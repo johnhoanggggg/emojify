@@ -9,23 +9,43 @@ placements and keeps the best. Then it hill-climbs by nudging the position,
 size, rotation, and choice of emoji, and keeps any change that brings the
 picture closer to the target. Candidate emoji are picked by matching their
 average color to the target region, so blue areas fill up with blue emoji and
-green areas with green ones.
+red areas with red ones.
 
-## Usage
+## Build
+
+Requires a C++17 compiler and CMake. All libraries are vendored in
+`third_party/`
+([stb_image](https://github.com/nothings/stb),
+[gif-h](https://github.com/charlietangora/gif-h),
+[nlohmann/json](https://github.com/nlohmann/json)).
 
 ```sh
-go build
-./emojify -i photo.jpg -o out.png -n 500
+cmake -S . -B build
+cmake --build build -j
+./build/emojify -i photo.jpg -o out.png -n 800
 ```
+
+By default the build uses `-march=native`. Pass `-DEMOJIFY_NATIVE=OFF` for a
+binary that runs on other machines.
 
 On first run, emojify downloads the Apple emoji images (64×64 PNGs from the
 [`emoji-datasource-apple`](https://github.com/iamcal/emoji-data) npm package,
-about 100 MB) into your user cache directory, under
-`~/.cache/emojify/apple-16.0.0`. They are not stored in this repository.
+about 100 MB) with `curl` and `tar`. It caches them in
+`~/.cache/emojify/apple-16.0.0` (`~/Library/Caches/...` on macOS). They are not
+stored in this repository.
+
+To try it on some classic test photos:
+
+```sh
+./scripts/fetch-samples.sh   # astronaut, cat, coffee, rocket, Starry Night, fruits, baboon
+./build/emojify -i samples/starry_night.jpg -o starry.png -n 1000
+```
+
+## Flags
 
 | Flag | Default | Description |
 |---|---|---|
-| `-i` | | input image (png, jpg, gif) |
+| `-i` | | input image (png, jpg, gif, bmp, …) |
 | `-o` | | output path; `.png`, `.jpg`, `.svg` or `.gif`; may be repeated |
 | `-n` | 300 | number of emoji |
 | `-r` | 256 | resize the input to this size before processing (larger is slower) |
@@ -58,8 +78,13 @@ about 100 MB) into your user cache directory, under
 
 ```sh
 # fruit-only portrait, upright emoji
-./emojify -i face.jpg -o face.png -n 800 -rot 0 -emojis "🍎🍊🍋🍌🍉🍇🍓🫐🥝🍑🥥🍆"
+./build/emojify -i face.jpg -o face.png -n 800 -rot 0 -emojis "🍎🍊🍋🍌🍉🍇🍓🫐🥝🍑🥥🍆"
 
 # animated build-up plus a vector version
-./emojify -i cat.jpg -o cat.gif -o cat.svg -n 400 -nth 5 -s 512
+./build/emojify -i cat.jpg -o cat.gif -o cat.svg -n 400 -nth 5 -s 512
 ```
+
+## Performance
+
+With 500 emoji on 4 cores at the default settings, a run takes about 2–4
+seconds. Most of that time goes into scoring candidate placements.
