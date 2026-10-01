@@ -21,16 +21,16 @@ namespace {
 struct Config {
     std::string input;
     std::vector<std::string> outputs;
-    int count = 300;
-    int input_size = 256;
-    int output_size = 1024;
+    int count = 600;
+    int input_size = 320;
+    int output_size = 2048;
     int alpha = 255;
     std::string bg;
     int workers = (int)std::max(1u, std::thread::hardware_concurrency());
     int trials = 400;
     int max_age = 100;
     double rot = 45;
-    double min_size = 4;
+    double min_size = 24;
     double max_size = 0;
     int nth = 1;
     SpriteFilter filter;
@@ -45,13 +45,13 @@ void usage() {
   -i PATH        input image (png, jpg, gif, bmp, ...)
   -o PATH        output: .png, .jpg, .svg or .gif; may be repeated. A path with
                  %%d (e.g. frame%%03d.png) saves every -nth frame
-  -n N           number of emoji (300)
-  -r N           resize the input to this size before processing (256)
-  -s N           output size (1024)
+  -n N           number of emoji (600)
+  -r N           resize the input to this size before processing (320)
+  -s N           output size (2048)
   -a N           emoji opacity, 1-255 (255)
   -bg HEX        background color (default: image average)
   -rot DEG       maximum rotation in degrees, 0 keeps emoji upright (45)
-  -min PX        minimum emoji size, in pixels of the resized input (4)
+  -min PX        minimum emoji size, in pixels of the resized input (24)
   -max PX        maximum emoji size (default: a quarter of the resized input)
   -emojis STR    only use these emoji, e.g. "🍎🍊🍋🍏🫐🍇"
   -cat LIST      only use these categories, comma separated, e.g. "food,animals"

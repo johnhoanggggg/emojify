@@ -34,7 +34,7 @@ public:
     Model(Canvas target, const std::vector<Sprite>& sprites, Color bg, int workers, uint64_t seed);
 
     float opacity = 1;
-    double min_size = 4;
+    double min_size = 24;
     double max_size;
     double max_angle;
 
